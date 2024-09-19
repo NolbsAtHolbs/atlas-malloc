@@ -35,7 +35,7 @@ data_block_t *request_space(data_block_t *last, size_t size)
 
 	block = sbrk(0);
 	void *request = sbrk(size + DATA_BLOCK_SIZE);
-	
+
 	if (request == (void *)-1)
 	{
 		errno = ENOMEM;
@@ -78,6 +78,7 @@ void *_malloc(size_t size)
 	else
 	{
 		data_block_t *last = global_free_list;
+
 		block = locate_free_block(&last, qpu_aligned);
 
 		if (!block)
