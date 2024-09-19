@@ -65,16 +65,12 @@ void *_malloc(size_t size)
 
 	if (size == 0)
 		return (NULL);
-
 	qpu_aligned = (((size + 7) / 8) * 8);
-
 	if (!global_free_list)
 	{
 		block = request_space(NULL, qpu_aligned);
-
 		if (!block)
 			return (NULL);
-
 		global_free_list = block;
 	}
 	else
@@ -82,18 +78,15 @@ void *_malloc(size_t size)
 		data_block_t *last = global_free_list;
 
 		block = locate_free_block(&last, qpu_aligned);
-
 		if (!block)
 		{
 			block = request_space(last, qpu_aligned);
-
 			if (!block)
 				return (NULL);
 		}
 		else
 		{
 			total_size = qpu_aligned + DATA_BLOCK_SIZE;
-
 			if (block->size >= total_size + DATA_BLOCK_SIZE + 8)
 			{
 				data_block_t *new_block = (data_block_t *)((char *)block + total_size);
