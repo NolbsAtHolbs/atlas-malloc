@@ -16,6 +16,8 @@ void *naive_malloc(size_t size)
 	size_t alloc_size = num_pages * page_size; /* total allocation size */
 
 	void *current_brk = sbrk(0); /* get current program break */
+	printf("Current program break: %p\n", current_brk); /* and print it */
+	
 	void *allocated_memory = sbrk(alloc_size); /* extend program break */
 
 	if (allocated_memory == (void *)-1) /* sbrk allocation failure */
