@@ -12,8 +12,9 @@ void *naive_malloc(size_t size);
 void *_malloc(size_t size);
 void _free(void *ptr);
 
-/* declaration before defining struct. `data_block_t` is a type representing
- *	`struct data_block`
+/**
+ * declaration before defining struct. `data_block_t` is a type representing
+ * `struct data_block`
  */
 typedef struct data_block data_block_t;
 
