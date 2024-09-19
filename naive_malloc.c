@@ -13,8 +13,8 @@ void *naive_malloc(size_t size)
 	static void *heap_end;
 
 	size_t qpu_aligned = (((size + 7) / 8) * 8); /* aligns size to 8 bytes*/
-	size_t total_size = qpu_aligned + sizeof(size_t); /* include space for header */
-	size_t page_size = sysconf(_SC_PAGESIZE); /* gets default system page size */
+	size_t total_size = qpu_aligned + sizeof(size_t); /* include space 4 hdr */
+	size_t page_size = sysconf(_SC_PAGESIZE); /* gets default sys page size */
 
 	if (current_brk == NULL)
 	{
@@ -25,7 +25,8 @@ void *naive_malloc(size_t size)
 	if ((char *)current_brk + total_size > (char *)heap_end)
 	{
 		/* extend the heap */
-		size_t alloc_size = ((total_size + page_size - 1) / page_size) * page_size;
+		size_t alloc_size = (((total_size + page_size - 1)
+			/ page_size) * page_size);
 
 		void *result = sbrk(alloc_size); /* now extend program break */
 
