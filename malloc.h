@@ -37,6 +37,6 @@ struct data_block
 	data_block_t *next;
 };
 
-#define DATA_BLOCK_SIZE sizeof(data_block_t)
+#define DBS sizeof(data_block_t)
 
 #endif
