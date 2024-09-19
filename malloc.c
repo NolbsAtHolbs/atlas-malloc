@@ -93,5 +93,5 @@ void *_malloc(size_t size)
 			block->free_flag = 0;
 		}
 	}
-	return (void *)(block + 1);
+	return ((void *)(block + 1));
 }
