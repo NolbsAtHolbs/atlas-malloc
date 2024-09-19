@@ -11,6 +11,7 @@ static data_block_t *global_free_list; /* = NULL */
 data_block_t *locate_free_block(data_block_t **last, size_t size)
 {
 	data_block_t *current = global_free_list;
+
 	while (current)
 	{
 		if (current->free_flag && current->size >= size)
@@ -31,6 +32,7 @@ data_block_t *locate_free_block(data_block_t **last, size_t size)
 data_block_t *request_space(data_block_t *last, size_t size)
 {
 	data_block_t *block;
+
 	block = sbrk(0);
 	void *request = sbrk(size + DATA_BLOCK_SIZE);
 	
