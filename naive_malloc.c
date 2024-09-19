@@ -9,8 +9,8 @@
  */
 void *naive_malloc(size_t size)
 {
-	static void *current_brk = NULL;
-	static void *heap_end = NULL;
+	static void *current_brk;
+	static void *heap_end;
 
 	size_t qpu_aligned = (((size + 7) / 8) * 8); /* aligns size to 8 bytes*/
 	size_t total_size = qpu_aligned + sizeof(size_t); /* include space for header */
@@ -23,7 +23,7 @@ void *naive_malloc(size_t size)
 	}
 
 	if ((char *)current_brk + total_size > (char *)heap_end)
-    {
+	{
 		/* extend the heap */
 		size_t alloc_size = ((total_size + page_size - 1) / page_size) * page_size;
 
@@ -41,7 +41,7 @@ void *naive_malloc(size_t size)
 	/* store the aligned size in the header to assist with memory management */
 	*((size_t *)current_brk) = qpu_aligned;
 
-	/* return a pointer to user-accessible memory area, after block size header */
+	/* return a pointer to user-accessible memory area, after block size hdr */
 	void *user_ptr = (void *)((char *)current_brk + sizeof(size_t));
 
 	/* advance current_brk */
