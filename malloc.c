@@ -60,11 +60,13 @@ data_block_t *request_space(data_block_t *last, size_t size)
 void *_malloc(size_t size)
 {
 	data_block_t *block;
+	size_t qpu_aligned;
+	size_t total_size;
 
 	if (size == 0)
 		return (NULL);
 
-	size_t qpu_aligned = (((size + 7) / 8) * 8);
+	qpu_aligned = (((size + 7) / 8) * 8);
 
 	if (!global_free_list)
 	{
@@ -90,6 +92,17 @@ void *_malloc(size_t size)
 		}
 		else
 		{
+			total_size = qpu_aligned + DATA_BLOCK_SIZE;
+
+			if (block->size >= total_size + DATA_BLOCK_SIZE + 8)
+			{
+				data_block_t *new_block = (data_block_t *)((char *)block + total_size);
+				new_block->size = block->size - total_size;
+				new_block->free_flag = 1;
+				new_block->next = block->next;
+				block->size = qpu_aligned;
+				block->next = new_block;
+			}
 			block->free_flag = 0;
 		}
 	}
