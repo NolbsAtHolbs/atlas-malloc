@@ -39,6 +39,4 @@ struct data_block
 
 #define DBS sizeof(data_block_t)
 
-extern data_block_t *global_free_list;
-
 #endif
